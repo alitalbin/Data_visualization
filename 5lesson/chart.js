@@ -12,9 +12,7 @@ async function drawLine() {
         left:60,
       },
     }
-    dimensions.boundedWidth = dimensions.width
-      - dimensions.margin.left
-      - dimensions.margin.right
+    dimensions.boundedWidth = dimensions.width - dimensions.margin.left - dimensions.margin.right
     dimensions.boundedHeight = dimensions.height
       - dimensions.margin.top
       - dimensions.margin.bottom
@@ -27,10 +25,11 @@ async function drawLine() {
 
     const bounds = wrapper.append("g")
         .style("translate", `translate(${dimensions.margin.left}px,${dimensions.margin.top}px)`);
+    bounds.append("path")
+            .attr("class", "line");
 
+  const drawLineChart = metric => {
     const dateParser = d3.timeParse("%Y-%m-%d");
-    const drawLineChart = metric => {
-    
     const yAccessor = d => d[metric];
     function xAccesor(d) {
               return dateParser(d.date);
@@ -51,7 +50,8 @@ async function drawLine() {
     const lineGenerator = d3.line()
               .x(d=>xScale(xAccesor(d)))
               .y(d=>yScale(yAccessor(d)))
-    const line = bounds.append("path")
+    const line = bounds.select("path")
+                .transition(updateTransition)
                 .attr("d",lineGenerator(data))
                 .attr("fill","none")
                 .attr("stroke","#af9999")
@@ -72,20 +72,25 @@ async function drawLine() {
 
 
     const metrics = [
-
+        "windSpeed",
+        "moonPhase",
+        "dewPoint",
+        "humidity",
+        "uvIndex",
+        "windBearing",
         "temperatureMin",
         "temperatureMax"
-    ]
-    let mIndex = 0
+    ];
+    let mIndex = 0;
 
    drawLineChart(metrics[mIndex])
-    const button = d3.select("body")
+   const button = d3.select("body")
         .append("button")
-        .text("Change Metric")
+        .text("Change Metric");
 
     button.node().addEventListener("click", onClick)
 
-    function onClick() {
+   function onClick() {
         mIndex = (mIndex + 1) % metrics.length
         drawLineChart(metrics[mIndex])
         console.log(mIndex)
