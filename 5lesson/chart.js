@@ -24,9 +24,11 @@ async function drawLine() {
         .attr("height", dimensions.height);
 
     const bounds = wrapper.append("g")
-        .style("translate", `translate(${dimensions.margin.left}px,${dimensions.margin.top}px)`);
+        .style("transform", `translate(${dimensions.margin.left}px,${dimensions.margin.top}px)`);
     bounds.append("path")
             .attr("class", "line");
+    bounds.append("g")
+            .attr("class", "y-axis");
 
   const drawLineChart = metric => {
     const dateParser = d3.timeParse("%Y-%m-%d");
@@ -63,7 +65,8 @@ async function drawLine() {
     const xAxisGenertor = d3.axisBottom()
                 .scale(xScale);
 
-    const yAxis = bounds.select("g")
+
+    const yAxis = bounds.select(".y-axis")
                 .transition(updateTransition)
                 .style("transform",`translateX(${dimensions.margin.right}px)`)
                 .call(yAxisGenerator)
