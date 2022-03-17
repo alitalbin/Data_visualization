@@ -19,7 +19,6 @@ async function drawLine() {
       - dimensions.margin.top
       - dimensions.margin.bottom
 
-    // 3. Draw canvas
 
     const wrapper = d3.select("#wrapper")
       .append("svg")
@@ -31,9 +30,9 @@ async function drawLine() {
 
     const dateParser = d3.timeParse("%Y-%m-%d");
     const drawLineChart = metric => {
-        //Accessor
+    
     const yAccessor = d => d[metric];
-        function xAccesor(d) {
+    function xAccesor(d) {
               return dateParser(d.date);
           }
 
@@ -69,72 +68,6 @@ async function drawLine() {
     const xAxis = bounds.append("g").call(xAxisGenertor)
                 .style("transform",`translateY(${dimensions.boundedHeight}px)`)
 
-      /*  const bins = binsGen(dataset);
-        console.log(bins);
-
-        const yScaler = d3.scaleLinear()
-            .domain([0, d3.max(bins, yAccessor)])
-            .range([dimensions.boundedHeight, 0])
-
-        let binGroups = bounds.select(".bins").selectAll(".bin").data(bins)
-
-        const oldBinGroups = binGroups.exit()
-        oldBinGroups.selectAll("rect")
-            .style("fill", "orangered")
-            .transition(exitTransition)
-            .attr("y", dimensions.boundedHeight)
-            .attr('height', 0)
-        oldBinGroups.selectAll("text")
-            .transition(exitTransition)
-            .attr("y", dimensions.boundedHeight)
-
-        oldBinGroups.transition(exitTransition).remove()
-
-        const newBinGroups = binGroups.enter().append("g")
-            .attr("class", "bin")
-
-        newBinGroups.append("rect")
-        newBinGroups.append("text")
-
-        binGroups = newBinGroups.merge(binGroups)
-
-        const barPadding = 1
-
-        const barRect = binGroups.select("rect")
-            .transition(updateTransition)
-            .attr("x", d => xScaler(d.x0) + barPadding / 2)
-            .attr("y", d => yScaler(yAccessor(d)))
-            .attr("width", d => d3.max([0, xScaler(d.x1) - xScaler(d.x0) - barPadding]))
-            .attr("height", d => dimensions.boundedHeight - yScaler(yAccessor(d)))
-            .transition()
-            .style("fill","cornflowerblue")
-
-
-        const barText = binGroups.select("text")
-            .transition(updateTransition)
-            .attr("x", d => xScaler(d.x0) + (xScaler(d.x1) - xScaler(d.x0)) / 2)
-            .attr("y", d => yScaler(yAccessor(d)) - 5)
-            .text(d => yAccessor(d) || "")
-
-
-
-        const mean = d3.mean(dataset, metricAccessor);
-        console.log(mean);
-        const meanLine = bounds.selectAll(".mean")
-            .transition(updateTransition)
-            .attr("x1", xScaler(mean))
-            .attr("x2", xScaler(mean))
-            .attr("y1", -15)
-            .attr("y2", dimensions.boundedHeight)
-
-        const xAxisGen = d3.axisBottom()
-            .scale(xScaler);
-        const xAxis = bounds.select("x-axis")
-            .transition(updateTransition)
-            .call(xAxisGen)
-            .style("transform", `translateY(${dimensions.boundedHeight}px)`);
-
-*/
     }
 
 
