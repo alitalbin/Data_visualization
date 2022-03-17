@@ -43,7 +43,7 @@ async function drawLine() {
           .range([dimensions.boundedHeight,0]);
     const xScale = d3.scaleTime()
             .domain(d3.extent(data, xAccesor))
-            .range([5, dimensions.boundedWidth])
+            .range([dimensions.margin.right, dimensions.boundedWidth])
 
 
 
@@ -57,13 +57,16 @@ async function drawLine() {
                 .attr("stroke","#af9999")
                 .attr("stroke-width", 2)
 
-    const yAxisGenerator = d3.axisLeft()
+    const yAxisGenerator = d3.axisRight()
                 .scale(yScale);
 
     const xAxisGenertor = d3.axisBottom()
                 .scale(xScale);
 
-    const yAxis = bounds.append("g").call(yAxisGenerator);
+    const yAxis = bounds.select("g")
+                .transition(updateTransition)
+                .style("transform",`translateX(${dimensions.margin.right}px)`)
+                .call(yAxisGenerator)
 
     const xAxis = bounds.append("g").call(xAxisGenertor)
                 .style("transform",`translateY(${dimensions.boundedHeight}px)`)
