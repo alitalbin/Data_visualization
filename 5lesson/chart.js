@@ -17,7 +17,7 @@ async function drawLine() {
       - dimensions.margin.top
       - dimensions.margin.bottom
 
-
+ 
     const wrapper = d3.select("#wrapper")
       .append("svg")
         .attr("width", dimensions.width)
